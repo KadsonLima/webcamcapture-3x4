@@ -17,7 +17,7 @@ const App = () => {
     const croppedContext = croppedCanvas.getContext('2d');
     const aspectRatio = 3 / 4; // Proporção desejada (3:4)
     const canvasWidth = canvas.width;
-    const canvasHeight = canvasWidth / aspectRatio;
+    const canvasHeight = canvasWidth * aspectRatio;
     const startY = (canvas.height - canvasHeight) / 2;
 
     croppedCanvas.width = canvasWidth;
