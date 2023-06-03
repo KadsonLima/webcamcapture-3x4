@@ -42,27 +42,27 @@ const App = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', gap:20 }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ width: '300px', height: '400px' }}>
         <Webcam
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
           videoConstraints={{ width: 300, height: 400 }} // Define as dimensões do vídeo
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Redimensiona o preview para preencher o elemento pai
+          style={{ objectFit: 'cover', width: 300, height: 400 }} // Redimensiona o preview para preencher o elemento pai
         />
         <button onClick={capturePhoto}>Tirar Foto</button>
-      </div>
-      <div style={{ width: '300px', height: '400px' }}>
-      {previewImage && (
+        {previewImage && (
           <>
-            <img src={previewImage} alt="Preview" style={{ width: '100%', height: 'auto' }} />
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{ width: '100%', height: 'auto', marginTop: '10px', maxWidth: '300px', maxHeight: '400px' }}
+            />
             <button onClick={downloadPhoto}>Baixar Foto</button>
           </>
         )}
-
       </div>
-     
     </div>
   );
 };
