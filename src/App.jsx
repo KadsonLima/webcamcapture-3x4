@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import html2canvas from 'html2canvas';
 
 const App = () => {
   const webcamRef = useRef(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const capturePhoto = async () => {
     const webcamElement = webcamRef.current.video;
@@ -30,27 +31,38 @@ const App = () => {
 
     // Obter a imagem no formato base64
     const imageSrc = resizedCanvas.toDataURL('image/jpeg');
+    setPreviewImage(imageSrc);
+  };
 
-    // Abrir a imagem em uma nova guia para download
+  const downloadPhoto = () => {
     const link = document.createElement('a');
-    link.href = imageSrc;
+    link.href = previewImage;
     link.download = 'photo.jpg';
     link.click();
   };
 
   return (
-    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-    <div style={{ width: '300px', height: '400px' }}>
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={{ width: 300, height: 400 }} // Define as dimensões do vídeo
-        style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Redimensiona o preview para preencher o elemento pai
-    
-      />
-      <button onClick={capturePhoto}>Tirar Foto</button>
-    </div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', gap:20 }}>
+      <div style={{ width: '300px', height: '400px' }}>
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={{ width: 300, height: 400 }} // Define as dimensões do vídeo
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }} // Redimensiona o preview para preencher o elemento pai
+        />
+        <button onClick={capturePhoto}>Tirar Foto</button>
+      </div>
+      <div style={{ width: '300px', height: '400px' }}>
+      {previewImage && (
+          <>
+            <img src={previewImage} alt="Preview" style={{ width: '100%', height: 'auto' }} />
+            <button onClick={downloadPhoto}>Baixar Foto</button>
+          </>
+        )}
+
+      </div>
+     
     </div>
   );
 };
